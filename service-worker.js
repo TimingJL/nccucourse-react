@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/nccucourse-react/precache-manifest.34e19b0f10ea1beddde743595c349de1.js"
+  "/nccucourse-react/precache-manifest.a8960e55b51b2544b93eb12aff3603c5.js"
 );
 
 workbox.clientsClaim();

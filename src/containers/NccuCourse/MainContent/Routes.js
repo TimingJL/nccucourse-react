@@ -1,17 +1,19 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import SemesterSelectPage from './SemesterSelectPage';
 import CourseListPage from './CourseListPage';
+import history from 'utils/history';
 
 export const routePathConfig = {
-    semesterSelectPagePath: process.env.PUBLIC_URL + '/',
-    courseListPagePath: process.env.PUBLIC_URL + '/:semester',
+    semesterSelectPagePath: '/',
+    courseListPagePath: '/:semester',
 };
 
-
 export default () => (
-    <Switch>
-        <Route exact path={routePathConfig.semesterSelectPagePath} component={SemesterSelectPage} />
-        <Route path={routePathConfig.courseListPagePath} component={CourseListPage} />
-    </Switch>
-)
+    <Router history={history}>
+        <Switch>
+            <Route exact path={routePathConfig.semesterSelectPagePath} component={SemesterSelectPage} />
+            <Route path={routePathConfig.courseListPagePath} component={CourseListPage} />
+        </Switch>
+    </Router>
+);

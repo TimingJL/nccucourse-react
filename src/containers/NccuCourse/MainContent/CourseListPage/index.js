@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { List, Map } from 'immutable';
+import { Map } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import {
@@ -14,26 +14,22 @@ import {
 class CourseListPage extends React.Component {
     static propTypes = {
         match: PropTypes.object,
-        semesterList: PropTypes.instanceOf(List),
         coursesListMap: PropTypes.instanceOf(Map),
         handlefetchCoursesList: PropTypes.func,
     }
     static defaultProps = {
         match: {},
-        semesterList: List(),
         coursesListMap: Map(),
         handlefetchCoursesList: () => { },
     }
-    componentDidUpdate() {
+    componentDidMount() {
         const {
-            semesterList,
             coursesListMap,
             match,
             handlefetchCoursesList,
         } = this.props;
         const semester = match.params.semester;
-        const findSemester = semesterList.find((item) => item.get('semester') === semester);
-        if (findSemester && !coursesListMap.get(semester)) {
+        if (!coursesListMap.get(semester)) {
             handlefetchCoursesList(semester);
         }
     }

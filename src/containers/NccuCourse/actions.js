@@ -3,6 +3,8 @@ import {
     SET_SEMESTER_LIST,
     FETCH_COURSES_LIST,
     SET_COURSES_LIST_MAP,
+    SET_SEMESTER_LIST_LOADING,
+    SET_COURSES_LIST_LOADING,
 } from './constants';
 
 export const fetchSemesterList = () => ({
@@ -28,5 +30,19 @@ export const setCoursesListMap = (semester, coursesList) => ({
     payload: {
         semester,
         coursesList,
+    },
+});
+
+export const setSemesterListLoading = (isLoading) => ({
+    type: SET_SEMESTER_LIST_LOADING,
+    payload: {
+        isLoading,
+    },
+});
+
+export const setCoursesListLoading = (isLoading) => ({
+    type: SET_COURSES_LIST_LOADING,
+    payload: {
+        isLoading,
     },
 });

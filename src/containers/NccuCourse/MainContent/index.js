@@ -1,12 +1,35 @@
 import React from 'react';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { selectSemesterList } from 'containers/NccuCourse/selectors';
 import { StyledMainContent } from './Styled';
+import Routes from './Routes';
 
-const MainContent = () => (
-    <StyledMainContent>
-        <div className="main-content__main-content">
-            MainContent
-        </div>
-    </StyledMainContent>
-);
+class MainContent extends React.Component {
+    render() {
+        const {
+            location,
+        } = this.props;
 
-export default MainContent;
+        return (
+            <StyledMainContent>
+                <div className="main-content__main-content">
+                    <Routes
+                        location={location}
+                    />
+                </div>
+            </StyledMainContent>
+        );
+    }
+}
+
+
+const mapStateToProps = createStructuredSelector({
+    semesterList: selectSemesterList(),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainContent);

@@ -1,7 +1,12 @@
 import React from 'react';
+import styled from 'styled-components';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { selectSemesterList } from 'containers/NccuCourse/selectors';
+
+const StyledSemesterSelectPage = styled.div`
+    display: grid;
+`;
 
 class SemesterSelectPage extends React.Component {
     render() {
@@ -10,14 +15,15 @@ class SemesterSelectPage extends React.Component {
         } = this.props;
 
         return (
-            <div>
-                SemesterSelectPage
+            <StyledSemesterSelectPage>
                 {
                     semesterList.map((item) => (
-                        <div key={item}>{item.get('semester')}</div>
+                        <div key={item}>
+                            {item.get('semester')}
+                        </div>
                     ))
                 }
-            </div>
+            </StyledSemesterSelectPage>
         );
     }
 }

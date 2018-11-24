@@ -7,6 +7,12 @@ const selectSemesterList = () =>
     nccuCourseState.get('semesterList'),
   );
 
+const selectCoursesListMap = () =>
+  createSelector(nccuCourse, nccuCourseState =>
+    nccuCourseState.get('coursesListMap'),
+  );
+
 export {
-  selectSemesterList
+  selectSemesterList,
+  selectCoursesListMap,
 };

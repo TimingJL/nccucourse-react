@@ -1,17 +1,15 @@
 import styled from 'styled-components';
 import {
-    APP_WIDTH,
-    APP_PADDING,
+    NAVIGATION_BAR_HEIGHT,
 } from 'containers/NccuCourse/constants';
+import { mixinWidthStyle } from 'containers/NccuCourse/NavigationBar/Styled'
 
 export const StyledMainContent = styled.div`
     display: flex;
     justify-content: center;
+    height: calc(100vh - ${NAVIGATION_BAR_HEIGHT}px);
+    overflow-y: auto;
     .main-content__main-content {
-        width: ${APP_WIDTH}px;
-        @media only screen and (max-width: ${APP_WIDTH}px) {
-            width: 100%;
-            padding: 0px ${APP_PADDING}px;
-        }
+        ${mixinWidthStyle()}
     }
 `;

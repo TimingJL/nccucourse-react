@@ -6,7 +6,6 @@ import { selectSemesterList } from 'containers/NccuCourse/selectors';
 class SemesterSelectPage extends React.Component {
     render() {
         const {
-            // location,
             semesterList,
         } = this.props;
 

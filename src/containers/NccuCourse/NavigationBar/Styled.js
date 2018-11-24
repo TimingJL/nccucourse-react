@@ -5,18 +5,22 @@ import {
     NAVIGATION_BAR_HEIGHT,
 } from 'containers/NccuCourse/constants';
 
+export const mixinWidthStyle = () => `
+    width: ${APP_WIDTH}px;
+    @media only screen and (max-width: ${APP_WIDTH}px) {
+        width: 100%;
+        padding: 0px ${APP_PADDING}px;
+    }
+`;
+
 export const StyledNavigationBar = styled.div`
     display: flex;
     justify-content: center;
     background: #ffffff0a; /* navigation bar background color */
     .navigation-bar__main-content {
-        width: ${APP_WIDTH}px;
+        ${mixinWidthStyle()}
         height: ${NAVIGATION_BAR_HEIGHT}px;
         line-height: ${NAVIGATION_BAR_HEIGHT}px;
-        @media only screen and (max-width: ${APP_WIDTH}px) {
-            width: 100%;
-            padding: 0px ${APP_PADDING}px;
-        }
     }
 `;
 

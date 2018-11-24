@@ -5,10 +5,12 @@ import { request, fetchErrorEpic } from 'utils/request';
 import {
     INIT,
     FETCH_SEMESTER_LIST,
+    FETCH_COURSES_LIST,
 } from './constants';
 
 import {
-    setSemesterList
+    setSemesterList,
+    setCoursesListMap,
 } from './actions';
 
 const setInit = (action$, store) =>
@@ -23,14 +25,35 @@ const fetchSemesterListEpic = (action$) => (
                 method: 'get',
                 url: `${COURSE_DATA_DOMAIN}/index.json`,
             })
-            .flatMap((semesterList) => {
-                return Observable.of(setSemesterList(semesterList));
+                .flatMap((semesterList) => {
+                    return Observable.of(setSemesterList(semesterList));
+                })
+                .catch(fetchErrorEpic);
+        })
+);
+
+const fetchCoursesListEpic = (action$) => (
+    action$.ofType(FETCH_COURSES_LIST)
+        .switchMap((action) => {
+            const {
+                semester,
+            } = action.payload;
+            return request({
+                method: 'get',
+                url: `${COURSE_DATA_DOMAIN}/${semester}/courses.json`,
             })
-            .catch(fetchErrorEpic);
+                .flatMap((coursesList) => {
+                    return Observable.of(setCoursesListMap(
+                        semester,
+                        coursesList,
+                    ));
+                })
+                .catch(fetchErrorEpic);
         })
 );
 
 export default [
     setInit,
     fetchSemesterListEpic,
+    fetchCoursesListEpic,
 ];

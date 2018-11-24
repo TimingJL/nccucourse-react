@@ -4,8 +4,8 @@ import SemesterSelectPage from './SemesterSelectPage';
 import CourseListPage from './CourseListPage';
 
 export const routePathConfig = {
-    semesterSelectPagePath: '/',
-    courseListPagePath: '/:semester',
+    semesterSelectPagePath: process.env.PUBLIC_URL + '/',
+    courseListPagePath: process.env.PUBLIC_URL + '/:semester',
 };
 
 

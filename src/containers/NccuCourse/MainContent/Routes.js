@@ -13,7 +13,7 @@ export default () => (
     <Router history={history}>
         <Switch>
             <Route exact path={routePathConfig.semesterSelectPagePath} component={SemesterSelectPage} />
-            <Route path={routePathConfig.courseListPagePath} component={CourseListPage} />
+            <Route exact path={routePathConfig.courseListPagePath} component={CourseListPage} />
         </Switch>
     </Router>
 );

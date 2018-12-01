@@ -26,7 +26,7 @@ import CourseListRow from './CourseListRow';
 const isLoadingData = (isLoadingSemester, coursesList) => isLoadingSemester || !coursesList;
 
 const StyledCourseListPage = styled.div`
-    margin-top: 40px;
+    margin: 40px 0px;
 `;
 
 class CourseListPage extends React.Component {

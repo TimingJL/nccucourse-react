@@ -17,9 +17,10 @@ import {
     selectIsLoading,
 } from 'containers/NccuCourse/selectors';
 import Spinner from 'components/Spinner';
+import CourseListRow from './CourseListRow';
 
 const StyledCourseListPage = styled.div`
-
+    margin-top: 40px;
 `;
 
 class CourseListPage extends React.Component {
@@ -99,9 +100,10 @@ class CourseListPage extends React.Component {
                         <StyledCourseListPage>
                             {
                                 coursesList.map((course) => (
-                                    <div key={course}>
-                                        {course.get('name')}
-                                    </div>
+                                    <CourseListRow
+                                        key={course}
+                                        course={course}
+                                    />
                                 ))
                             }
                         </StyledCourseListPage>

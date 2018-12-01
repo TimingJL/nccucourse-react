@@ -16,8 +16,14 @@ import {
     selectCoursesListMap,
     selectIsLoading,
 } from 'containers/NccuCourse/selectors';
+import {
+    ROW_RANGE,
+} from 'containers/NccuCourse/constants';
 import Spinner from 'components/Spinner';
+import PageSelector from 'components/PageSelector';
 import CourseListRow from './CourseListRow';
+
+const isLoadingData = (isLoadingSemester, coursesList) => isLoadingSemester || !coursesList;
 
 const StyledCourseListPage = styled.div`
     margin-top: 40px;
@@ -33,6 +39,9 @@ class CourseListPage extends React.Component {
         match: {},
         coursesListMap: Map(),
         handlefetchCoursesList: () => { },
+    }
+    state = {
+        defaultCurrentPage: 1, // default current page number
     }
     componentDidMount() {
         const {
@@ -82,6 +91,14 @@ class CourseListPage extends React.Component {
             history.push('/');
         }
     }
+    handleOnPageChange = (page) => {
+        this.setState({
+            defaultCurrentPage: page,
+        });
+    }
+    renderPageSelector = (pageRange, currentPage, handleOnPageChange) => {
+        return <PageSelector pageRange={pageRange} currentPage={currentPage} handleOnPageChange={handleOnPageChange} />;
+    }
 
     render() {
         const {
@@ -89,24 +106,35 @@ class CourseListPage extends React.Component {
             coursesListMap,
             isLoading,
         } = this.props;
+        const {
+            defaultCurrentPage,
+        } = this.state;
         const semester = match.params.semester;
         const coursesList = coursesListMap.get(semester);
+        if (isLoadingData(isLoading.get('semesterList'), coursesList)) {
+            return <Spinner />;
+        }
+        const pageRange = Math.ceil(coursesList.size / ROW_RANGE);
+        const currentPage = (defaultCurrentPage > pageRange ? 1 : defaultCurrentPage);
+        const end = currentPage * ROW_RANGE;
+        const start = end - ROW_RANGE;
+        const updatedCoursesList = coursesList.slice(start, end);
+
         return (
             <React.Fragment>
                 {
-                    (isLoading.get('semesterList') || isLoading.get('coursesList'))
-                        ? <Spinner />
-                        : coursesList &&
-                        <StyledCourseListPage>
-                            {
-                                coursesList.map((course) => (
-                                    <CourseListRow
-                                        key={course}
-                                        course={course}
-                                    />
-                                ))
-                            }
-                        </StyledCourseListPage>
+                    <StyledCourseListPage>
+                        {this.renderPageSelector(pageRange, currentPage, this.handleOnPageChange)}
+                        {
+                            updatedCoursesList.map((course) => (
+                                <CourseListRow
+                                    key={course}
+                                    course={course}
+                                />
+                            ))
+                        }
+                        {this.renderPageSelector(pageRange, currentPage, this.handleOnPageChange)}
+                    </StyledCourseListPage>
                 }
             </React.Fragment>
         );

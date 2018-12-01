@@ -7,6 +7,7 @@ import {
 
 export const mixinWidthStyle = () => `
     width: ${APP_WIDTH}px;
+    min-width: 200px;
     @media only screen and (max-width: ${APP_WIDTH}px) {
         width: 100%;
         padding: 0px ${APP_PADDING}px;

@@ -1,5 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const breathShadow = props => keyframes`
+    0% {
+        box-shadow: 0 0 18px 0px #888888;
+    }
+    100% {
+        box-shadow: 0 0 18px 8px #888888;
+    }
+`;
 
 const StyledCourseListRow = styled.div`
     margin-top: 3px;
@@ -10,11 +19,11 @@ const StyledCourseListRow = styled.div`
     background: #ffffff26;
     color: #fcfdfc;
     cursor: pointer;
-    transition: all 0.8s;
+    transition: all 1.2s;
     border-radius: 2px;
     &:hover {
-        box-shadow: 0 0 18px 1px #888888;
-        transition: all 0.2s;
+        animation: ${breathShadow} 1s infinite alternate-reverse;
+        transition: all 0.5s;
         background: #363636;
     }
     @media only screen and (max-width: 600px) {
@@ -34,13 +43,15 @@ const StyledCourseListRow = styled.div`
         }
     }
     .course-name {
-        flex: 1 0 100px;
         @media only screen and (max-width: 600px) {
             justify-content: start;
         }
     }
     .course-instructor {
-        flex: 0 1 200px;
+        flex: 1 1 200px;
+        @media only screen and (max-width: 600px) {
+            max-width: 60px;
+        }
     }
     .course-start {
         justify-content: start;

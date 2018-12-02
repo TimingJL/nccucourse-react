@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Modal from 'antd/lib/modal';
 import { Map } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -71,7 +72,7 @@ const StyledSearchBar = styled.div`
                     }
                 `
             : null;
-        }}
+    }}
     }
     input {
         width: 100%;
@@ -115,8 +116,14 @@ class SearchBar extends React.PureComponent {
         filter: Map(),
         handleSetSearchKey: () => { },
         handleOnAddFilterKeys: () => { },
-        handleOnRemoveFilterKeys: () =>{ },
+        handleOnRemoveFilterKeys: () => { },
     };
+    constructor(props) {
+        super(props);
+        this.state = {
+            isModalVisible: false,
+        };
+    }
 
     handleOnSearch = () => {
         const {
@@ -149,6 +156,16 @@ class SearchBar extends React.PureComponent {
         const key = findAttributeInEvent(event, 'data-filter-key');
         handleOnRemoveFilterKeys(key);
     }
+    handleOnShowModal = () => {
+        this.setState({
+            isModalVisible: true,
+        });
+    }
+    handleOnHideModal = () => {
+        this.setState({
+            isModalVisible: false,
+        });
+    }
 
     render() {
         const {
@@ -168,9 +185,19 @@ class SearchBar extends React.PureComponent {
                     <button className="search-bar__button button-state" onClick={this.handleOnGetFilterKeys}>
                         <i className="fas fa-plus" />
                     </button>
-                    <button className="search-bar__button">
+                    <button className="search-bar__button" onClick={this.handleOnShowModal}>
                         <i className="far fa-calendar-alt" />
                     </button>
+                    <Modal
+                        title="上課時間篩選"
+                        visible={this.state.isModalVisible}
+                        onOk={this.handleOnHideModal}
+                        onCancel={this.handleOnHideModal}
+                        okText="確定"
+                        cancelText="取消"
+                    >
+                        <div>123</div>
+                    </Modal>
                 </div>
                 <div className="search-bar__balloon-wrapper">
                     {

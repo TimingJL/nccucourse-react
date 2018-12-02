@@ -9,13 +9,21 @@ import {
 } from 'containers/NccuCourse/selectors';
 import {
     setSearchKey,
+    addFilterKeys,
+    removeFilterKey,
 } from 'containers/NccuCourse/actions'
 import _ from 'lodash';
+import { findAttributeInEvent } from 'utils/event';
+
+const isKeyEmpty = (keys) => {
+    return (keys.length === 1) && (keys[0] === "");
+};
 
 const StyledSearchBar = styled.div`
     margin: 10px 0px;
     .search-bar__group {
         display: flex;
+        margin: 5px 0px;
     }
     .search-bar__wrapper {
         width: 100%;
@@ -54,15 +62,15 @@ const StyledSearchBar = styled.div`
     }
     .button-state {
         ${(props) => {
-            return !props.hasValue
-                ? `
+        return !props.hasValue
+            ? `
                     background: #eee;
                     cursor: not-allowed;
                     &:hover {
                         background: #eee;
                     }
                 `
-                : null;
+            : null;
         }}
     }
     input {
@@ -73,17 +81,41 @@ const StyledSearchBar = styled.div`
         padding: 0px 10px;
         font-size: 1.3em;
     }
+
+    .search-bar__balloon-wrapper {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap
+    }
+    .search-bar__balloon-tag {
+        background: #f2a250;
+        border-radius: 50px;
+        padding: 0px 15px;
+        padding-right: 10px;
+        height: 28px;
+        margin-right: 5px;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+    }
+    .search-bar__close {
+        margin-left: 5px;
+    }
 `;
 
 class SearchBar extends React.PureComponent {
     static propTypes = {
         filter: PropTypes.instanceOf(Map),
         handleSetSearchKey: PropTypes.func,
+        handleOnAddFilterKeys: PropTypes.func,
+        handleOnRemoveFilterKeys: PropTypes.func,
     };
 
     static defaultProps = {
         filter: Map(),
         handleSetSearchKey: () => { },
+        handleOnAddFilterKeys: () => { },
+        handleOnRemoveFilterKeys: () =>{ },
     };
 
     handleOnSearch = () => {
@@ -100,6 +132,24 @@ class SearchBar extends React.PureComponent {
         document.getElementById('search-bar__input').value = null;
         handleSetSearchKey("");
     }
+    handleOnGetFilterKeys = () => {
+        const {
+            handleOnAddFilterKeys,
+        } = this.props;
+        // eslint-disable-next-line no-useless-escape
+        const keys = document.getElementById('search-bar__input').value.split(/[.,\/ -+]/);
+        if (isKeyEmpty(keys)) return;
+        handleOnAddFilterKeys(keys);
+        document.getElementById('search-bar__input').value = null;
+    }
+    handleOnRemoveFilterKey = (event) => {
+        const {
+            handleOnRemoveFilterKeys,
+        } = this.props;
+        const key = findAttributeInEvent(event, 'data-filter-key');
+        handleOnRemoveFilterKeys(key);
+    }
+
     render() {
         const {
             filter,
@@ -115,15 +165,24 @@ class SearchBar extends React.PureComponent {
                                 : <i className="fa fa-search search-bar__bar-icon" />
                         }
                     </div>
-                    <button className="search-bar__button button-state">
+                    <button className="search-bar__button button-state" onClick={this.handleOnGetFilterKeys}>
                         <i className="fas fa-plus" />
                     </button>
                     <button className="search-bar__button">
                         <i className="far fa-calendar-alt" />
                     </button>
                 </div>
-                {/* asdf */}
-        </StyledSearchBar>
+                <div className="search-bar__balloon-wrapper">
+                    {
+                        filter.get('filterKeys').map((filterKey, index) => (
+                            <div key={`${filterKey}-${index}`} className="search-bar__balloon-tag">
+                                <span>{filterKey}</span>
+                                <i data-filter-key={filterKey} className="fas fa-times-circle search-bar__close" onClick={this.handleOnRemoveFilterKey} />
+                            </div>
+                        ))
+                    }
+                </div>
+            </StyledSearchBar>
         );
     }
 }
@@ -134,6 +193,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
     handleSetSearchKey: (searchKey) => dispatch(setSearchKey(searchKey)),
+    handleOnAddFilterKeys: (keys) => dispatch(addFilterKeys(keys)),
+    handleOnRemoveFilterKeys: (key) => dispatch(removeFilterKey(key)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

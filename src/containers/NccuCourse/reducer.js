@@ -5,6 +5,8 @@ import {
     SET_SEMESTER_LIST_LOADING,
     SET_COURSES_LIST_LOADING,
     SET_SEARCH_KEY,
+    ADD_FILTER_KEYS,
+    REMOVE_FILTER_KEY,
 } from './constants';
 
 //  nccucourse-data/10701/courses.json
@@ -66,6 +68,29 @@ function nccuCourseReducer(state = initialState, action) {
                 searchKey,
             } = action.payload;
             return state.setIn(['filter', 'searchKey'], searchKey);
+        }
+        case ADD_FILTER_KEYS: {
+            const {
+                keys,
+            } = action.payload;
+            return state
+                .updateIn(['filter', 'filterKeys'], (filterKeys) => {
+                    let updatedFilterKeys = filterKeys;
+                    keys.forEach((key) => {
+                        if (!filterKeys.includes(key)) {
+                            updatedFilterKeys = updatedFilterKeys.push(key);
+                        }
+                    });
+                    return updatedFilterKeys;
+                })
+                .setIn(['filter', 'searchKey'], "");
+        }
+        case REMOVE_FILTER_KEY: {
+            const {
+                key,
+            } = action.payload;
+            return state
+                .updateIn(['filter', 'filterKeys'], (filterKeys) => filterKeys.remove(filterKeys.indexOf(key)));
         }
         default: {
             return state;

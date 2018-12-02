@@ -6,6 +6,8 @@ import {
     SET_SEMESTER_LIST_LOADING,
     SET_COURSES_LIST_LOADING,
     SET_SEARCH_KEY,
+    ADD_FILTER_KEYS,
+    REMOVE_FILTER_KEY,
 } from './constants';
 
 export const fetchSemesterList = () => ({
@@ -53,4 +55,18 @@ export const setSearchKey = (searchKey) => ({
     payload: {
         searchKey,
     }
+});
+
+export const addFilterKeys = (keys) => ({
+    type: ADD_FILTER_KEYS,
+    payload: {
+        keys,
+    },
+});
+
+export const removeFilterKey = (key) => ({
+    type: REMOVE_FILTER_KEY,
+    payload: {
+        key,
+    },
 });

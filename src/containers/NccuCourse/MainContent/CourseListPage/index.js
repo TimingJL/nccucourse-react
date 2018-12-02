@@ -134,7 +134,7 @@ class CourseListPage extends React.Component {
                     <StyledCourseListPage>
                         <SearchBar />
                         {
-                            Boolean(updatedCoursesList.size) &&
+                            Boolean(pageRange > 1) &&
                             this.renderPageSelector(pageRange, currentPage, this.handleOnPageChange)
                         }
                         {
@@ -146,7 +146,7 @@ class CourseListPage extends React.Component {
                             ))
                         }
                         {
-                            Boolean(updatedCoursesList.size) &&
+                            Boolean(pageRange > 1) &&
                             this.renderPageSelector(pageRange, currentPage, this.handleOnPageChange)
                         }
                     </StyledCourseListPage>

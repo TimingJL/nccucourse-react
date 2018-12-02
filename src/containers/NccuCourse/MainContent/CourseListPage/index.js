@@ -21,6 +21,7 @@ import {
 } from 'containers/NccuCourse/constants';
 import Spinner from 'components/Spinner';
 import PageSelector from 'components/PageSelector';
+import SearchBar from 'containers/NccuCourse/MainContent/CourseListPage/SearchBar';
 import CourseListRow from './CourseListRow';
 
 const isLoadingData = (isLoadingSemester, coursesList) => isLoadingSemester || !coursesList;
@@ -124,6 +125,7 @@ class CourseListPage extends React.Component {
             <React.Fragment>
                 {
                     <StyledCourseListPage>
+                        <SearchBar />
                         {this.renderPageSelector(pageRange, currentPage, this.handleOnPageChange)}
                         {
                             updatedCoursesList.map((course) => (

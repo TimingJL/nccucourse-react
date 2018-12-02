@@ -17,8 +17,14 @@ const selectIsLoading = () =>
     nccuCourseState.get('isLoading'),
   );
 
+const selectFilter = () =>
+  createSelector(nccuCourse, nccuCourseState =>
+    nccuCourseState.get('filter'),
+  );
+
 export {
   selectSemesterList,
   selectCoursesListMap,
   selectIsLoading,
+  selectFilter,
 };

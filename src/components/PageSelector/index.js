@@ -5,13 +5,13 @@ const StyledPageSelector = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin: 5px 0px;
+    margin: 10px 0px;
     .page-selector__select {
         /* https://thejsguy.com/2016/04/07/styling-select-elements-with-css.html */
         height: 30px;
         width: 100px;
         border-radius: 0;
-        padding-left: 10px;
+        padding-left: 43px;
 
         /* Removes the default <select> styling */
         -webkit-appearance: none;
@@ -23,6 +23,8 @@ const StyledPageSelector = styled.div`
         background-repeat: no-repeat;
         background-position: 75px center;
         outline: none;
+        border: none;
+        border-radius: 50px;
         cursor: pointer;
     }
     .fa-chevron {

@@ -5,6 +5,7 @@ import {
     SET_COURSES_LIST_MAP,
     SET_SEMESTER_LIST_LOADING,
     SET_COURSES_LIST_LOADING,
+    SET_SEARCH_KEY,
 } from './constants';
 
 export const fetchSemesterList = () => ({
@@ -45,4 +46,11 @@ export const setCoursesListLoading = (isLoading) => ({
     payload: {
         isLoading,
     },
+});
+
+export const setSearchKey = (searchKey) => ({
+    type: SET_SEARCH_KEY,
+    payload: {
+        searchKey,
+    }
 });

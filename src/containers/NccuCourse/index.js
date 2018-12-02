@@ -10,7 +10,7 @@ import {
 } from './actions';
 import { StyledNccuCourse } from './Styled';
 
-class NccuCourse extends React.Component {
+class NccuCourse extends React.PureComponent {
     componentDidMount() {
         const {
             handlefetchSemesterList,

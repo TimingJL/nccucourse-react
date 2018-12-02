@@ -4,6 +4,7 @@ import {
     SET_COURSES_LIST_MAP,
     SET_SEMESTER_LIST_LOADING,
     SET_COURSES_LIST_LOADING,
+    SET_SEARCH_KEY,
 } from './constants';
 
 //  nccucourse-data/10701/courses.json
@@ -12,6 +13,10 @@ import {
 const initialState = fromJS({
     semesterList: [],
     coursesListMap: {},
+    filter: {
+        searchKey: "",
+        filterKeys: [],
+    },
     isLoading: {
         semesterList: false,
         coursesList: false,
@@ -55,6 +60,12 @@ function nccuCourseReducer(state = initialState, action) {
                 isLoading,
             } = action.payload;
             return state.setIn(['isLoading', 'coursesList'], isLoading);
+        }
+        case SET_SEARCH_KEY: {
+            const {
+                searchKey,
+            } = action.payload;
+            return state.setIn(['filter', 'searchKey'], searchKey);
         }
         default: {
             return state;

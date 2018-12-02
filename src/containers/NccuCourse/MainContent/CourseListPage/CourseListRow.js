@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import styled, { keyframes } from 'styled-components';
 
 const breathShadow = props => keyframes`
@@ -61,12 +63,25 @@ const StyledCourseListRow = styled.div`
     }
 `;
 
-const CourseListRow = ({ course }) => (
-    <StyledCourseListRow>
-        <div className="course-list-row__item-wrapper course-id course-start"><span>{course.get('id')}</span></div>
-        <div className="course-list-row__item-wrapper course-name"><span>{course.get('name')}</span></div>
-        <div className="course-list-row__item-wrapper course-instructor course-end"><span>{course.get('instructor')}</span></div>
-    </StyledCourseListRow>
-);
+class CourseListRow extends React.PureComponent {
+    static propTypes = {
+        course: PropTypes.instanceOf(Map),
+    }
+    static defaultProps = {
+        course: Map(),
+    }
+    render() {
+        const {
+            course,
+        } = this.props;
+        return (
+            <StyledCourseListRow>
+                <div className="course-list-row__item-wrapper course-id course-start"><span>{course.get('id')}</span></div>
+                <div className="course-list-row__item-wrapper course-name"><span>{course.get('name')}</span></div>
+                <div className="course-list-row__item-wrapper course-instructor course-end"><span>{course.get('instructor')}</span></div>
+            </StyledCourseListRow>
+        );
+    }
+}
 
 export default CourseListRow;

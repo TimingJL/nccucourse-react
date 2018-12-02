@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import history from 'utils/history';
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import {
@@ -15,6 +15,7 @@ import {
     selectSemesterList,
     selectCoursesListMap,
     selectIsLoading,
+    selectFilter,
 } from 'containers/NccuCourse/selectors';
 import {
     ROW_RANGE,
@@ -23,6 +24,7 @@ import Spinner from 'components/Spinner';
 import PageSelector from 'components/PageSelector';
 import SearchBar from 'containers/NccuCourse/MainContent/CourseListPage/SearchBar';
 import CourseListRow from './CourseListRow';
+import { coursesFilter } from './utils';
 
 const isLoadingData = (isLoadingSemester, coursesList) => isLoadingSemester || !coursesList;
 
@@ -106,6 +108,7 @@ class CourseListPage extends React.Component {
             match,
             coursesListMap,
             isLoading,
+            filter,
         } = this.props;
         const {
             defaultCurrentPage,
@@ -115,18 +118,25 @@ class CourseListPage extends React.Component {
         if (isLoadingData(isLoading.get('semesterList'), coursesList)) {
             return <Spinner />;
         }
-        const pageRange = Math.ceil(coursesList.size / ROW_RANGE);
+        // eslint-disable-next-line no-useless-escape
+        const searchKey = fromJS(filter.get('searchKey').split(/[.,\/ -+]/));
+        const searchParams = filter.get('filterKeys').concat(searchKey);
+        const filteredCourseList = coursesFilter(coursesListMap.get(semester), searchParams);
+        const pageRange = Math.ceil(filteredCourseList.size / ROW_RANGE);
         const currentPage = (defaultCurrentPage > pageRange ? 1 : defaultCurrentPage);
         const end = currentPage * ROW_RANGE;
         const start = end - ROW_RANGE;
-        const updatedCoursesList = coursesList.slice(start, end);
+        const updatedCoursesList = filteredCourseList.slice(start, end);
 
         return (
             <React.Fragment>
                 {
                     <StyledCourseListPage>
                         <SearchBar />
-                        {this.renderPageSelector(pageRange, currentPage, this.handleOnPageChange)}
+                        {
+                            Boolean(updatedCoursesList.size) &&
+                            this.renderPageSelector(pageRange, currentPage, this.handleOnPageChange)
+                        }
                         {
                             updatedCoursesList.map((course) => (
                                 <CourseListRow
@@ -135,7 +145,10 @@ class CourseListPage extends React.Component {
                                 />
                             ))
                         }
-                        {this.renderPageSelector(pageRange, currentPage, this.handleOnPageChange)}
+                        {
+                            Boolean(updatedCoursesList.size) &&
+                            this.renderPageSelector(pageRange, currentPage, this.handleOnPageChange)
+                        }
                     </StyledCourseListPage>
                 }
             </React.Fragment>
@@ -147,6 +160,7 @@ const mapStateToProps = createStructuredSelector({
     semesterList: selectSemesterList(),
     coursesListMap: selectCoursesListMap(),
     isLoading: selectIsLoading(),
+    filter: selectFilter(),
 });
 
 const mapDispatchToProps = (dispatch) => ({

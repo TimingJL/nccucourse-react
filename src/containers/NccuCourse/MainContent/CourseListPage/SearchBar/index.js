@@ -52,6 +52,19 @@ const StyledSearchBar = styled.div`
             background: #b9fffd;
         }
     }
+    .button-state {
+        ${(props) => {
+            return !props.hasValue
+                ? `
+                    background: #eee;
+                    cursor: not-allowed;
+                    &:hover {
+                        background: #eee;
+                    }
+                `
+                : null;
+        }}
+    }
     input {
         width: 100%;
         background: none;
@@ -85,14 +98,14 @@ class SearchBar extends React.PureComponent {
             handleSetSearchKey,
         } = this.props;
         document.getElementById('search-bar__input').value = null;
-        handleSetSearchKey();
+        handleSetSearchKey("");
     }
     render() {
         const {
             filter,
         } = this.props;
         return (
-            <StyledSearchBar>
+            <StyledSearchBar hasValue={Boolean(filter.get('searchKey'))}>
                 <div className="search-bar__group">
                     <div className="search-bar__wrapper">
                         <input id="search-bar__input" type="text" placeholder="Search..." onChange={_.debounce(this.handleOnSearch, 500)} />
@@ -102,7 +115,7 @@ class SearchBar extends React.PureComponent {
                                 : <i className="fa fa-search search-bar__bar-icon" />
                         }
                     </div>
-                    <button className="search-bar__button">
+                    <button className="search-bar__button button-state">
                         <i className="fas fa-plus" />
                     </button>
                     <button className="search-bar__button">

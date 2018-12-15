@@ -77,7 +77,7 @@ function nccuCourseReducer(state = initialState, action) {
                 .updateIn(['filter', 'filterKeys'], (filterKeys) => {
                     let updatedFilterKeys = filterKeys;
                     keys.forEach((key) => {
-                        if (!filterKeys.includes(key)) {
+                        if (!filterKeys.includes(key) && key.length) { // to avoid duplicate and empty filterKey
                             updatedFilterKeys = updatedFilterKeys.push(key);
                         }
                     });

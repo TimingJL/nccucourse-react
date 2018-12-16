@@ -15,6 +15,7 @@ import {
 } from 'containers/NccuCourse/actions'
 import _ from 'lodash';
 import { findAttributeInEvent } from 'utils/event';
+import TimeTableFitler from 'containers/NccuCourse/MainContent/CourseListPage/SearchBar/TimeTableFilter';
 
 const isKeyEmpty = (keys) => {
     return (keys.length === 1) && (keys[0] === "");
@@ -192,9 +193,9 @@ class SearchBar extends React.PureComponent {
                         visible={this.state.isModalVisible}
                         onCancel={this.handleOnHideModal}
                     >
-                        <div>123</div>
-                        <div>123</div>
-                        <div>123</div>
+                        <TimeTableFitler
+                            handleOnHideModal={this.handleOnHideModal}
+                        />
                     </CustomModal>
                 </div>
                 <div className="search-bar__balloon-wrapper">

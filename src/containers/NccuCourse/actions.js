@@ -8,6 +8,7 @@ import {
     SET_SEARCH_KEY,
     ADD_FILTER_KEYS,
     REMOVE_FILTER_KEY,
+    SET_SELECTED_SESSION_CLASS,
 } from './constants';
 
 export const fetchSemesterList = () => ({
@@ -64,9 +65,18 @@ export const addFilterKeys = (keys) => ({
     },
 });
 
-export const removeFilterKey = (key) => ({
+export const removeFilterKey = (dataFilterType, key) => ({
     type: REMOVE_FILTER_KEY,
     payload: {
+        dataFilterType,
         key,
+    },
+});
+
+export const setSelectedSessionClass = (weekday, sessionClass) => ({
+    type: SET_SELECTED_SESSION_CLASS,
+    payload: {
+        weekday,
+        sessionClass,
     },
 });

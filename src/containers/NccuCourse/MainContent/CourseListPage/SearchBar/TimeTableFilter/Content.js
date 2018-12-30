@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { List } from 'immutable';
 import {
     SESSION_WEEKDAYS,
     SESSION_CLASS,
+    ALL,
 } from 'containers/NccuCourse/constants';
 
 const mixinTimeTableItem = () => `
-    border: 1px solid #eee;
     cursor: pointer;
     line-height: 30px;
     text-align: center;
@@ -23,11 +24,10 @@ const StyledContent = styled.div`
     text-align: center;
     .time-table__header-item {
         ${mixinTimeTableItem()}
-        background: #7edcd845;
+        background: #7edcd8;
         color: initial;
         &:hover {
-            background: #7edcd8;
-            color: white;
+            background: #8ef1ec;
             border: none;
         }
     }
@@ -42,17 +42,37 @@ const StyledContent = styled.div`
             background: #eee;
         }
     }
+    .time-table__item-select {
+        ${mixinTimeTableItem()}
+        background: #89e0dd59;
+        &:hover {
+            background: #56c5b5;
+        }
+    }
 `;
 
-const Content = () => (
+const styleTableItem = (selectedSession, weekday, sessionClass) => {
+    if (!selectedSession.size) {
+        return 'time-table__item';
+    }
+    const foundClass = selectedSession
+        .find((session) => session.get('weekday') === weekday)
+        .get('sessionClass').includes(sessionClass);
+    return foundClass
+        ? 'time-table__item-select'
+        : 'time-table__item';
+};
+
+const Content = ({ selectedSession, handleOnSelect }) => (
     <StyledContent>
         {
             SESSION_WEEKDAYS.map((weekday) => (
                 <div
                     key={weekday}
                     data-weekday={weekday}
+                    data-sessionclass={ALL}
                     className="time-table__header-item"
-                // onClick={this.handleOnSelectAllSession}
+                    onClick={handleOnSelect}
                 >
                     {weekday}
                 </div>
@@ -67,9 +87,8 @@ const Content = () => (
                                 key={sessionClass}
                                 data-weekday={weekday}
                                 data-sessionclass={sessionClass}
-                                // className={styleTableItem(selectedSession, weekday, session)}
-                                className="time-table__item"
-                                // onClick={this.handleOnSessionSelect}
+                                className={styleTableItem(selectedSession, weekday, sessionClass)}
+                                onClick={handleOnSelect}
                             >
                                 <span>{sessionClass}</span>
                             </div>
@@ -82,10 +101,12 @@ const Content = () => (
 );
 
 Content.propTypes = {
-    handleOnHideModal: PropTypes.func,
+    selectedSession: PropTypes.instanceOf(List),
+    handleOnSelect: PropTypes.func,
 }
 Content.defaultProps = {
-    handleOnHideModal: () => { },
+    selectedSession: List(),
+    handleOnSelect: () => { },
 }
 
 export default Content;

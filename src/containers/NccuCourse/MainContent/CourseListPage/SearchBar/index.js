@@ -12,6 +12,7 @@ import {
     setSearchKey,
     addFilterKeys,
     removeFilterKey,
+    setSelectedSessionClass,
 } from 'containers/NccuCourse/actions'
 import _ from 'lodash';
 import { findAttributeInEvent } from 'utils/event';
@@ -66,12 +67,12 @@ const StyledSearchBar = styled.div`
         ${(props) => {
         return !props.hasValue
             ? `
-                    background: #eee;
-                    cursor: not-allowed;
-                    &:hover {
                         background: #eee;
-                    }
-                `
+                        cursor: not-allowed;
+                        &:hover {
+                            background: #eee;
+                        }
+                    `
             : null;
     }}
     }
@@ -111,6 +112,7 @@ class SearchBar extends React.PureComponent {
         handleSetSearchKey: PropTypes.func,
         handleOnAddFilterKeys: PropTypes.func,
         handleOnRemoveFilterKeys: PropTypes.func,
+        handleSetSessionClass: PropTypes.func,
     };
 
     static defaultProps = {
@@ -118,6 +120,7 @@ class SearchBar extends React.PureComponent {
         handleSetSearchKey: () => { },
         handleOnAddFilterKeys: () => { },
         handleOnRemoveFilterKeys: () => { },
+        handleSetSessionClass: () => { },
     };
     constructor(props) {
         super(props);
@@ -154,8 +157,9 @@ class SearchBar extends React.PureComponent {
         const {
             handleOnRemoveFilterKeys,
         } = this.props;
+        const dataFilterType = findAttributeInEvent(event, 'data-filter-type');
         const key = findAttributeInEvent(event, 'data-filter-key');
-        handleOnRemoveFilterKeys(key);
+        handleOnRemoveFilterKeys(dataFilterType, key);
     }
     handleOnShowModal = () => {
         this.setState({
@@ -166,6 +170,14 @@ class SearchBar extends React.PureComponent {
         this.setState({
             isModalVisible: false,
         });
+    }
+    handleOnSessionClassSelected = (event) => {
+        const {
+            handleSetSessionClass,
+        } = this.props;
+        const weekday = findAttributeInEvent(event, 'data-weekday');
+        const sessionClass = findAttributeInEvent(event, 'data-sessionclass');
+        handleSetSessionClass(weekday, sessionClass);
     }
 
     render() {
@@ -195,6 +207,8 @@ class SearchBar extends React.PureComponent {
                     >
                         <TimeTableFitler
                             handleOnHideModal={this.handleOnHideModal}
+                            handleOnSelect={this.handleOnSessionClassSelected}
+                            selectedSession={filter.get('selectedSession')}
                         />
                     </CustomModal>
                 </div>
@@ -203,9 +217,21 @@ class SearchBar extends React.PureComponent {
                         filter.get('filterKeys').map((filterKey, index) => (
                             <div key={`${filterKey}-${index}`} className="search-bar__balloon-tag">
                                 <span>{filterKey}</span>
-                                <i data-filter-key={filterKey} className="fas fa-times-circle search-bar__close" onClick={this.handleOnRemoveFilterKey} />
+                                <i data-filter-key={filterKey} data-filter-type="filterKey" className="fas fa-times-circle search-bar__close" onClick={this.handleOnRemoveFilterKey} />
                             </div>
                         ))
+                    }
+                    {
+                        filter.get('selectedSession').map((session) => {
+                            if (session.get('sessionClass').length) {
+                                return (
+                                    <div key={session.get('weekday')} className="search-bar__balloon-tag">
+                                        <span>{session.get('weekday')}|{session.get('sessionClass')}</span>
+                                        <i data-filter-key={session.get('weekday')} data-filter-type="selectedSession" className="fas fa-times-circle search-bar__close" onClick={this.handleOnRemoveFilterKey} />
+                                    </div>
+                                );
+                            }
+                        })
                     }
                 </div>
             </StyledSearchBar>
@@ -220,7 +246,8 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
     handleSetSearchKey: (searchKey) => dispatch(setSearchKey(searchKey)),
     handleOnAddFilterKeys: (keys) => dispatch(addFilterKeys(keys)),
-    handleOnRemoveFilterKeys: (key) => dispatch(removeFilterKey(key)),
+    handleOnRemoveFilterKeys: (dataFilterType, key) => dispatch(removeFilterKey(dataFilterType, key)),
+    handleSetSessionClass: (weekday, sessionClass) => dispatch(setSelectedSessionClass(weekday, sessionClass)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

@@ -24,7 +24,10 @@ import Spinner from 'components/Spinner';
 import PageSelector from 'components/PageSelector';
 import SearchBar from 'containers/NccuCourse/MainContent/CourseListPage/SearchBar';
 import CourseListRow from './CourseListRow';
-import { coursesFilter } from './utils';
+import {
+    coursesFilter,
+    coursesFilterBySession,
+} from './utils';
 
 const isLoadingData = (isLoadingSemester, coursesList) => isLoadingSemester || !coursesList;
 
@@ -121,7 +124,10 @@ class CourseListPage extends React.Component {
         // eslint-disable-next-line no-useless-escape
         const searchKey = fromJS(filter.get('searchKey').split(/[.,\/ -+]/));
         const searchParams = filter.get('filterKeys').concat(searchKey);
-        const filteredCourseList = coursesFilter(coursesListMap.get(semester), searchParams);
+        const selectedSession = filter.get('selectedSession');
+        const filteredCourseList = coursesFilterBySession(
+            coursesFilter(coursesListMap.get(semester), searchParams),
+            selectedSession);
         const pageRange = Math.ceil(filteredCourseList.size / ROW_RANGE);
         const currentPage = (defaultCurrentPage > pageRange ? 1 : defaultCurrentPage);
         const end = currentPage * ROW_RANGE;

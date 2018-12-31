@@ -27,3 +27,22 @@ export const coursesFilter = (courseList, searchParams) => {
     }
     return courseList;
 };
+
+export const coursesFilterBySession = (courseList, selectedSessions) => {
+    const result = courseList.filter((course) => {
+        const sessionsList = course.get('session');
+        const foundSession = sessionsList.find((session) => {
+            const foundWeekdaySession = selectedSessions.find((selectedSession) => selectedSession.get('weekday') === session.get('weekday'));
+            if (foundWeekdaySession) {
+                const isIncludeSession = foundWeekdaySession.get('sessionClass').includes(session.get('class'));
+                return isIncludeSession;
+            }
+            return false;
+        });
+        return Boolean(foundSession);
+    });
+
+    return result.size === 0
+        ? courseList
+        : result;
+};

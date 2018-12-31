@@ -231,6 +231,7 @@ class SearchBar extends React.PureComponent {
                                     </div>
                                 );
                             }
+                            return null;
                         })
                     }
                 </div>

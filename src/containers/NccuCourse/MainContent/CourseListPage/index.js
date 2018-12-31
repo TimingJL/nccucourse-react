@@ -20,6 +20,8 @@ import {
 import {
     ROW_RANGE,
 } from 'containers/NccuCourse/constants';
+import { findAttributeInEvent } from 'utils/event';
+import message from 'antd/lib/message';
 import Spinner from 'components/Spinner';
 import PageSelector from 'components/PageSelector';
 import SearchBar from 'containers/NccuCourse/MainContent/CourseListPage/SearchBar';
@@ -59,6 +61,7 @@ class CourseListPage extends React.Component {
             setSemesterListLoading,
             setCoursesListLoading,
         } = this.props;
+        document.addEventListener('click', this.handleOnClick);
         const semester = match.params.semester;
         const findSemester = semesterList.find((item) => item.get('semester') === semester);
         if (!semesterList.size) {
@@ -84,6 +87,7 @@ class CourseListPage extends React.Component {
             handlefetchCoursesList,
             setCoursesListLoading,
         } = this.props;
+        document.addEventListener('click', this.handleOnClick);
         const semester = match.params.semester;
         const findSemester = semesterList.find((item) => item.get('semester') === semester);
         if (findSemester && !coursesListMap.get(semester)) {
@@ -95,6 +99,21 @@ class CourseListPage extends React.Component {
         if (semesterList.size && !findSemester) {
             // if the url not exist, then go to homepage.
             history.push('/');
+        }
+    }
+    handleOnClick = (event) => {
+        const dataField = findAttributeInEvent(event, 'data-field');
+        if (dataField === 'course-id') {
+            const TextRange = document.createRange();
+            TextRange.selectNode(event.target);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(TextRange);
+            document.execCommand("copy");
+
+            const courseId = event.target.innerText;
+            message.success(`複製課程代碼：${courseId}`)
+            return;
         }
     }
     handleOnPageChange = (page) => {

@@ -70,13 +70,14 @@ class CourseListRow extends React.PureComponent {
     static defaultProps = {
         course: Map(),
     }
+
     render() {
         const {
             course,
         } = this.props;
         return (
-            <StyledCourseListRow>
-                <div className="course-list-row__item-wrapper course-id course-start"><span>{course.get('id')}</span></div>
+            <StyledCourseListRow data-field={"course-list-row"}>
+                <div className="course-list-row__item-wrapper course-id course-start" data-field={"course-id"}><span>{course.get('id')}</span></div>
                 <div className="course-list-row__item-wrapper course-name"><span>{course.get('name')}</span></div>
                 <div className="course-list-row__item-wrapper course-instructor course-end"><span>{course.get('instructor')}</span></div>
             </StyledCourseListRow>

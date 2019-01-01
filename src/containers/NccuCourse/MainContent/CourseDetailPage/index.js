@@ -118,6 +118,18 @@ class CourseDetailPage extends React.Component {
                             <div style={{ marginTop: '5px' }}>
                                 <CourseDetailRow label={'學年學期'} value={`${courseData.get('year')}-${courseData.get('semester')}`} />
                                 <CourseDetailRow label={'開課系所'} value={courseData.get('department')} />
+                                <div className="course-detail__session-wrapper">
+                                    <div className="course-detail__session-label">上課時間</div>
+                                    <div className="course-detail__balloon-wrapper">
+                                        {
+                                            courseData.get('session').map((session, index) => (
+                                                <div key={index} className="course-detail__session-balloon">
+                                                    <span>{session.get('weekday')}|{session.get('class')}</span>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
                                 <CourseDetailRow label={'教室'} value={courseData.get('place')} />
                                 <CourseDetailRow label={'得充抵通識'} value={courseData.get('asgeneral')} />
                                 <CourseDetailRow label={'核心通識'} value={courseData.get('coregeneral')} />

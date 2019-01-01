@@ -85,7 +85,7 @@ export const StyledCourseDetailPage = styled.div`
     .course-detail__button {
         width: 100%;
         height: 50px;
-        margin: 20px 0px;
+        margin: 10px 0px;
         background: #00b0ba;
         border: none;
         outline: none;
@@ -110,6 +110,28 @@ export const StyledCourseDetailPage = styled.div`
                 return `grid-template-columns: repeat(${repeatNum}, 1fr);`;
             }}
         }
+    }
+    .course-detail__session-wrapper {
+        display: flex;
+        color: #ffffffa1;
+        background: #ffffff26;
+        padding: 15px 20px;
+        justify-content: space-between;
+        border-bottom: 2px solid #ffffff4d;
+    }
+    .course-detail__balloon-wrapper {
+        display: flex;
+    }
+    .course-detail__session-label {
+        font-size: 1.3em;
+    }
+    .course-detail__session-balloon {
+        font-size: 1.3em;
+        color: white;
+        background: #ffffff1f;
+        padding: 2px 15px;
+        margin-left: 5px;
+        border-radius: 50px;
     }
     .course-detail__instr-btn {
         margin-top: 5px;

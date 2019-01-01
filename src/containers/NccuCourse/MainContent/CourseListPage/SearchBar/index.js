@@ -91,7 +91,7 @@ const StyledSearchBar = styled.div`
         flex-wrap: wrap
     }
     .search-bar__balloon-tag {
-        background: #f2a250;
+        background: #ffa300;
         border-radius: 50px;
         padding: 0px 15px;
         padding-right: 10px;
@@ -103,6 +103,9 @@ const StyledSearchBar = styled.div`
     }
     .search-bar__close {
         margin-left: 5px;
+        &:hover {
+            color: black;
+        }
     }
 `;
 

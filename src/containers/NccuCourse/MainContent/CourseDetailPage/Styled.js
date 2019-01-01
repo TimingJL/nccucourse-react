@@ -1,5 +1,14 @@
 import styled, { keyframes } from 'styled-components';
 
+const rippleBackground = keyframes`
+    from {
+        background: #ffffff26;
+    }
+    to {
+        background: #ffffff45;
+    }
+`;
+
 export const StyledCourseDetailPage = styled.div`
     .course-detail__content {
         margin: 10px 0px;
@@ -12,7 +21,7 @@ export const StyledCourseDetailPage = styled.div`
     }
     .course-detail__course-name-wrapper {
         font-size: 2em;
-        background: #ffffff26;
+        animation: 1s linear alternate-reverse infinite ${rippleBackground};
         letter-spacing: 1px;
         transition: all 0.5s;
         &:hover {

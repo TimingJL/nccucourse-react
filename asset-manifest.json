@@ -1,7 +1,7 @@
 {
   "main.css": "/nccucourse-react/static/css/main.e350eecd.chunk.css",
-  "main.js": "/nccucourse-react/static/js/main.19fe637a.chunk.js",
-  "main.js.map": "/nccucourse-react/static/js/main.19fe637a.chunk.js.map",
+  "main.js": "/nccucourse-react/static/js/main.48c8a441.chunk.js",
+  "main.js.map": "/nccucourse-react/static/js/main.48c8a441.chunk.js.map",
   "static/css/1.ca2d162c.chunk.css": "/nccucourse-react/static/css/1.ca2d162c.chunk.css",
   "static/js/1.fa1e43bb.chunk.js": "/nccucourse-react/static/js/1.fa1e43bb.chunk.js",
   "static/js/1.fa1e43bb.chunk.js.map": "/nccucourse-react/static/js/1.fa1e43bb.chunk.js.map",
@@ -10,6 +10,6 @@
   "static/css/1.ca2d162c.chunk.css.map": "/nccucourse-react/static/css/1.ca2d162c.chunk.css.map",
   "static/css/main.e350eecd.chunk.css.map": "/nccucourse-react/static/css/main.e350eecd.chunk.css.map",
   "index.html": "/nccucourse-react/index.html",
-  "precache-manifest.65b82a6cdca2cfefd266906ad1bc28fb.js": "/nccucourse-react/precache-manifest.65b82a6cdca2cfefd266906ad1bc28fb.js",
+  "precache-manifest.0b84c2d90f304b34c17f0bf44a143f70.js": "/nccucourse-react/precache-manifest.0b84c2d90f304b34c17f0bf44a143f70.js",
   "service-worker.js": "/nccucourse-react/service-worker.js"
 }

@@ -20,4 +20,4 @@ export const ALL = 'all';
 
 export const SESSION_WEEKDAYS = ['一', '二', '三', '四', '五', '六', '日'];
 export const SESSION_CLASS = ['1', '2', '3', '4', 'C', 'D', '5', '6', '7', '8', '9', 'E', 'F', 'G', 'H'];
-export const GENERAL_CLASS = ['中文通識', '外文通識', '社會通識', '自然通識', '人文通識'];
+export const GENERAL_CLASS = ['中文通識', '外文通識', '社會通識', '自然通識', '人文通識', '通識'];

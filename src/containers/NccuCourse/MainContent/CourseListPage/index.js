@@ -87,7 +87,6 @@ class CourseListPage extends React.Component {
             handlefetchCoursesList,
             setCoursesListLoading,
         } = this.props;
-        document.addEventListener('click', this.handleOnClick);
         const semester = match.params.semester;
         const findSemester = semesterList.find((item) => item.get('semester') === semester);
         if (findSemester && !coursesListMap.get(semester)) {
@@ -101,8 +100,20 @@ class CourseListPage extends React.Component {
             history.push('/');
         }
     }
+    componentWillUnmount() {
+        document.removeEventListener('click', this.handleOnClick);
+    }
+
     handleOnClick = (event) => {
+        const {
+            location: {
+                pathname,
+            },
+        } = this.props;
         const dataField = findAttributeInEvent(event, 'data-field');
+        if (!dataField) {
+            return;
+        }
         if (dataField === 'course-id') {
             const TextRange = document.createRange();
             TextRange.selectNode(event.target);
@@ -112,9 +123,13 @@ class CourseListPage extends React.Component {
             document.execCommand("copy");
 
             const courseId = event.target.innerText;
-            message.success(`複製課程代碼：${courseId}`)
+            message.success(`複製科目代號：${courseId}`)
             return;
         }
+
+        const courseId = findAttributeInEvent(event, 'data-course-id');
+        const courseDetailPagePath = `${pathname}/${courseId}`;
+        history.push(courseDetailPagePath);
     }
     handleOnPageChange = (page) => {
         this.setState({

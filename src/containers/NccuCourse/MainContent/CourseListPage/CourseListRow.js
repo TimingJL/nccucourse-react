@@ -76,7 +76,7 @@ class CourseListRow extends React.PureComponent {
             course,
         } = this.props;
         return (
-            <StyledCourseListRow data-field={"course-list-row"}>
+            <StyledCourseListRow data-field={"course-list-row"} data-course-id={course.get('id')}>
                 <div className="course-list-row__item-wrapper course-id course-start" data-field={"course-id"}><span>{course.get('id')}</span></div>
                 <div className="course-list-row__item-wrapper course-name"><span>{course.get('name')}</span></div>
                 <div className="course-list-row__item-wrapper course-instructor course-end"><span>{course.get('instructor')}</span></div>

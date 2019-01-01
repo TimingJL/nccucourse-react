@@ -93,7 +93,6 @@ class CourseDetailPage extends React.Component {
             return <Spinner />;
         }
         const courseData = coursesListMap.get(semester).find((courses) => courses.get('id') === courseId);
-        console.log('courseData: ', courseData.toJS());
         const instructorList = courseData.get('instructor').split('、');
         const instructorEngList = courseData.get('instructor_eng').split('/');
 

@@ -6,6 +6,7 @@ import {
     SET_SEMESTER_LIST_LOADING,
     SET_COURSES_LIST_LOADING,
     SET_SEARCH_KEY,
+    SET_FILTER_KEY,
     ADD_FILTER_KEYS,
     REMOVE_FILTER_KEY,
     SET_SELECTED_SESSION_CLASS,
@@ -56,6 +57,13 @@ export const setSearchKey = (searchKey) => ({
     payload: {
         searchKey,
     }
+});
+
+export const setFilterKey = (filterKey) => ({
+    type: SET_FILTER_KEY,
+    payload: {
+        filterKey,
+    },
 });
 
 export const addFilterKeys = (keys) => ({

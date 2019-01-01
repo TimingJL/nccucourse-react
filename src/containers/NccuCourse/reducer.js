@@ -5,6 +5,7 @@ import {
     SET_SEMESTER_LIST_LOADING,
     SET_COURSES_LIST_LOADING,
     SET_SEARCH_KEY,
+    SET_FILTER_KEY,
     SET_SELECTED_SESSION_CLASS,
 
     ADD_FILTER_KEYS,
@@ -77,6 +78,16 @@ function nccuCourseReducer(state = initialState, action) {
                 searchKey,
             } = action.payload;
             return state.setIn(['filter', 'searchKey'], searchKey);
+        }
+        case SET_FILTER_KEY: {
+            const {
+                filterKey,
+            } = action.payload;
+            return state.updateIn(['filter', 'filterKeys'], (filterKeys) => {
+                return filterKeys.includes(filterKey)
+                    ? filterKeys
+                    : filterKeys.push(filterKey);
+            });
         }
         case ADD_FILTER_KEYS: {
             const {

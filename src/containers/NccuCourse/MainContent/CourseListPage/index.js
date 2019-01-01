@@ -34,7 +34,7 @@ import {
 const isLoadingData = (isLoadingSemester, coursesList) => isLoadingSemester || !coursesList;
 
 const StyledCourseListPage = styled.div`
-    margin: 40px 0px;
+    margin: 5px 0px;
 `;
 
 class CourseListPage extends React.Component {

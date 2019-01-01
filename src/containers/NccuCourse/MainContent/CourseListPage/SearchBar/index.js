@@ -10,6 +10,7 @@ import {
 } from 'containers/NccuCourse/selectors';
 import {
     setSearchKey,
+    setFilterKey,
     addFilterKeys,
     removeFilterKey,
     setSelectedSessionClass,
@@ -17,6 +18,7 @@ import {
 import _ from 'lodash';
 import { findAttributeInEvent } from 'utils/event';
 import TimeTableFitler from 'containers/NccuCourse/MainContent/CourseListPage/SearchBar/TimeTableFilter';
+import GeneralClassFilter from 'containers/NccuCourse/MainContent/CourseListPage/SearchBar/GeneralClassFilter'
 
 const isKeyEmpty = (keys) => {
     return (keys.length === 1) && (keys[0] === "");
@@ -116,6 +118,7 @@ class SearchBar extends React.PureComponent {
         handleOnAddFilterKeys: PropTypes.func,
         handleOnRemoveFilterKeys: PropTypes.func,
         handleSetSessionClass: PropTypes.func,
+        handleSetFilterKey: PropTypes.func,
     };
 
     static defaultProps = {
@@ -124,6 +127,7 @@ class SearchBar extends React.PureComponent {
         handleOnAddFilterKeys: () => { },
         handleOnRemoveFilterKeys: () => { },
         handleSetSessionClass: () => { },
+        handleSetFilterKey: () => { },
     };
     constructor(props) {
         super(props);
@@ -138,6 +142,13 @@ class SearchBar extends React.PureComponent {
         } = this.props;
         const searchKey = document.getElementById('search-bar__input').value;
         handleSetSearchKey(searchKey);
+    }
+    handleOnGeneralClassFilter = (event) => {
+        const {
+            handleSetFilterKey,
+        } = this.props;
+        const filterKey = findAttributeInEvent(event, 'data-filter-key');
+        handleSetFilterKey(filterKey);
     }
     handleOnClearSearchKey = () => {
         const {
@@ -189,6 +200,7 @@ class SearchBar extends React.PureComponent {
         } = this.props;
         return (
             <StyledSearchBar hasValue={Boolean(filter.get('searchKey'))}>
+                <GeneralClassFilter onClick={this.handleOnGeneralClassFilter} />
                 <div className="search-bar__group">
                     <div className="search-bar__wrapper">
                         <input id="search-bar__input" type="text" placeholder="Search..." onChange={_.debounce(this.handleOnSearch, 500)} />
@@ -249,6 +261,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
     handleSetSearchKey: (searchKey) => dispatch(setSearchKey(searchKey)),
+    handleSetFilterKey: (filterKey) => dispatch(setFilterKey(filterKey)),
     handleOnAddFilterKeys: (keys) => dispatch(addFilterKeys(keys)),
     handleOnRemoveFilterKeys: (dataFilterType, key) => dispatch(removeFilterKey(dataFilterType, key)),
     handleSetSessionClass: (weekday, sessionClass) => dispatch(setSelectedSessionClass(weekday, sessionClass)),

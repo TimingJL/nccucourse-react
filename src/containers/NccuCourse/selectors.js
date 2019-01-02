@@ -1,3 +1,6 @@
+import {
+  LOADING,
+} from 'utils/meta';
 import { createSelector } from 'reselect';
 
 const nccuCourse = state => state.get('nccuCourse');
@@ -12,9 +15,24 @@ const selectCoursesListMap = () =>
     nccuCourseState.get('coursesListMap'),
   );
 
-const selectIsLoading = () =>
+const selectEvaluationList = () =>
   createSelector(nccuCourse, nccuCourseState =>
-    nccuCourseState.get('isLoading'),
+    nccuCourseState.get('evaluationList'),
+  );
+
+const selectSemesterListIsLoading = () =>
+  createSelector(nccuCourse, nccuCourseState =>
+    nccuCourseState.getIn(['semesterListMeta', LOADING]),
+  );
+
+const selectCoursesListMapIsLoading = () =>
+  createSelector(nccuCourse, nccuCourseState =>
+    nccuCourseState.getIn(['coursesListMapMeta', LOADING]),
+  );
+
+const selectEvaluationListIsLoading = () =>
+  createSelector(nccuCourse, nccuCourseState =>
+    nccuCourseState.getIn(['evaluationListMeta', LOADING]),
   );
 
 const selectFilter = () =>
@@ -25,6 +43,9 @@ const selectFilter = () =>
 export {
   selectSemesterList,
   selectCoursesListMap,
-  selectIsLoading,
+  selectEvaluationList,
+  selectSemesterListIsLoading,
+  selectCoursesListMapIsLoading,
+  selectEvaluationListIsLoading,
   selectFilter,
 };

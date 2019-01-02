@@ -3,8 +3,8 @@ import {
     SET_SEMESTER_LIST,
     FETCH_COURSES_LIST,
     SET_COURSES_LIST_MAP,
-    SET_SEMESTER_LIST_LOADING,
-    SET_COURSES_LIST_LOADING,
+    FETCH_EVALUATION_LIST,
+    SET_EVALUATION_LIST,
     SET_SEARCH_KEY,
     SET_FILTER_KEY,
     ADD_FILTER_KEYS,
@@ -16,7 +16,8 @@ export const fetchSemesterList = () => ({
     type: FETCH_SEMESTER_LIST,
 });
 
-export const setSemesterList = (semesterList) => ({
+export const setSemesterList = (error, semesterList) => ({
+    error,
     type: SET_SEMESTER_LIST,
     payload: {
         semesterList,
@@ -30,7 +31,8 @@ export const fetchCoursesList = (semester) => ({
     }
 });
 
-export const setCoursesListMap = (semester, coursesList) => ({
+export const setCoursesListMap = (error, semester, coursesList) => ({
+    error,
     type: SET_COURSES_LIST_MAP,
     payload: {
         semester,
@@ -38,17 +40,15 @@ export const setCoursesListMap = (semester, coursesList) => ({
     },
 });
 
-export const setSemesterListLoading = (isLoading) => ({
-    type: SET_SEMESTER_LIST_LOADING,
-    payload: {
-        isLoading,
-    },
+export const fetchEvaluationList = () => ({
+    type: FETCH_EVALUATION_LIST,
 });
 
-export const setCoursesListLoading = (isLoading) => ({
-    type: SET_COURSES_LIST_LOADING,
+export const setEvaluationList = (error, evaluationList) => ({
+    error,
+    type: SET_EVALUATION_LIST,
     payload: {
-        isLoading,
+        evaluationList,
     },
 });
 

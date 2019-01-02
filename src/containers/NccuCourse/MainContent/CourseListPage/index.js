@@ -8,14 +8,12 @@ import { connect } from 'react-redux';
 import {
     fetchSemesterList,
     fetchCoursesList,
-    setSemesterListLoading,
-    setCoursesListLoading,
 } from 'containers/NccuCourse/actions'
 import {
     selectSemesterList,
     selectCoursesListMap,
-    selectIsLoading,
     selectFilter,
+    selectSemesterListIsLoading,
 } from 'containers/NccuCourse/selectors';
 import {
     ROW_RANGE,
@@ -41,11 +39,13 @@ class CourseListPage extends React.Component {
     static propTypes = {
         match: PropTypes.object,
         coursesListMap: PropTypes.instanceOf(Map),
+        isLoadingSemester: PropTypes.bool,
         handlefetchCoursesList: PropTypes.func,
     }
     static defaultProps = {
         match: {},
         coursesListMap: Map(),
+        isLoadingSemester: false,
         handlefetchCoursesList: () => { },
     }
     state = {
@@ -58,8 +58,6 @@ class CourseListPage extends React.Component {
             match,
             handlefetchSemesterList,
             handlefetchCoursesList,
-            setSemesterListLoading,
-            setCoursesListLoading,
         } = this.props;
         document.addEventListener('click', this.handleOnClick);
         const semester = match.params.semester;
@@ -67,7 +65,6 @@ class CourseListPage extends React.Component {
         if (!semesterList.size) {
             // it go to the url directly. So it has not fetch semesterList yet.
             // Fetch the semesterList.
-            setSemesterListLoading(true);
             handlefetchSemesterList();
         }
         if (findSemester &&
@@ -75,7 +72,6 @@ class CourseListPage extends React.Component {
             !coursesListMap.get(semester)) {
             // it redirect from '/'.
             // Althought it has fetch semesterList, it has not fetch coursesList yet.
-            setCoursesListLoading(true);
             handlefetchCoursesList(semester);
         }
     }
@@ -85,14 +81,12 @@ class CourseListPage extends React.Component {
             coursesListMap,
             match,
             handlefetchCoursesList,
-            setCoursesListLoading,
         } = this.props;
         const semester = match.params.semester;
         const findSemester = semesterList.find((item) => item.get('semester') === semester);
         if (findSemester && !coursesListMap.get(semester)) {
             // it go to the url directly and it has fetch semesterList in DidMount.
             // But it has not fetch coursesList yet.
-            setCoursesListLoading(true);
             handlefetchCoursesList(semester);
         }
         if (semesterList.size && !findSemester) {
@@ -144,7 +138,7 @@ class CourseListPage extends React.Component {
         const {
             match,
             coursesListMap,
-            isLoading,
+            isLoadingSemester,
             filter,
         } = this.props;
         const {
@@ -152,7 +146,7 @@ class CourseListPage extends React.Component {
         } = this.state;
         const semester = match.params.semester;
         const coursesList = coursesListMap.get(semester);
-        if (isLoadingData(isLoading.get('semesterList'), coursesList)) {
+        if (isLoadingData(isLoadingSemester, coursesList)) {
             return <Spinner />;
         }
         // eslint-disable-next-line no-useless-escape
@@ -199,15 +193,13 @@ class CourseListPage extends React.Component {
 const mapStateToProps = createStructuredSelector({
     semesterList: selectSemesterList(),
     coursesListMap: selectCoursesListMap(),
-    isLoading: selectIsLoading(),
+    isLoadingSemester: selectSemesterListIsLoading(),
     filter: selectFilter(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
     handlefetchSemesterList: () => dispatch(fetchSemesterList()),
     handlefetchCoursesList: (semester) => dispatch(fetchCoursesList(semester)),
-    setSemesterListLoading: (isLoading) => dispatch(setSemesterListLoading(isLoading)),
-    setCoursesListLoading: (isLoading) => dispatch(setCoursesListLoading(isLoading)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseListPage);

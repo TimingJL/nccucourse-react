@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import {
     selectSemesterList,
-    selectIsLoading,
+    selectSemesterListIsLoading,
 } from 'containers/NccuCourse/selectors';
 import Spinner from 'components/Spinner';
 
@@ -50,7 +50,7 @@ class SemesterSelectPage extends React.Component {
         return (
             <React.Fragment>
                 {
-                    isLoading.get('semesterList')
+                    isLoading
                         ? <Spinner />
                         : <StyledSemesterSelectPage>
                             {
@@ -74,7 +74,7 @@ class SemesterSelectPage extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
     semesterList: selectSemesterList(),
-    isLoading: selectIsLoading(),
+    isLoading: selectSemesterListIsLoading(),
 });
 
 const mapDispatchToProps = (dispatch) => ({

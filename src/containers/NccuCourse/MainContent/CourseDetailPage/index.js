@@ -47,6 +47,7 @@ class CourseDetailPage extends React.Component {
         semester: PropTypes.string,
         courseId: PropTypes.string,
         location: PropTypes.object,
+        isLoading: PropTypes.bool,
         handlefetchCoursesList: PropTypes.func,
     }
     static defaultProps = {
@@ -54,6 +55,7 @@ class CourseDetailPage extends React.Component {
         semester: '',
         courseId: '',
         location: {},
+        isLoading: false,
         handlefetchCoursesList: () => { },
     }
     state = {};
@@ -78,6 +80,11 @@ class CourseDetailPage extends React.Component {
     }
     handleOnBackBtnClick = () => {
         history.goBack();
+    }
+    handleOnInstructorClick = (event) => {
+        const instructor = findAttributeInEvent(event, 'data-instructor');
+        const evaluationPagePath = `/evaluation/${instructor}`;
+        history.push(evaluationPagePath);
     }
     render() {
         const {
@@ -144,7 +151,14 @@ class CourseDetailPage extends React.Component {
                             <div className="course-detail__instr-group">
                                 {
                                     instructorList.map((instr, index) => (
-                                        <button key={instr} className="course-detail__instr-btn">{`${instr}(${instructorEngList[index]})`}</button>
+                                        <button
+                                            key={instr}
+                                            data-instructor={instr}
+                                            className="course-detail__instr-btn"
+                                            onClick={this.handleOnInstructorClick}
+                                        >
+                                            {`${instr}(${instructorEngList[index]})`}
+                                        </button>
                                     ))
                                 }
                             </div>

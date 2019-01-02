@@ -1,7 +1,16 @@
 import { fromJS } from 'immutable';
+import meta, {
+    updateMetaLoading,
+    updateMetaDone,
+    updateMetaError,
+} from 'utils/meta';
 import {
+    FETCH_SEMESTER_LIST,
+    FETCH_COURSES_LIST,
+    FETCH_EVALUATION_LIST,
     SET_SEMESTER_LIST,
     SET_COURSES_LIST_MAP,
+    SET_EVALUATION_LIST,
     SET_SEMESTER_LIST_LOADING,
     SET_COURSES_LIST_LOADING,
     SET_SEARCH_KEY,
@@ -21,6 +30,10 @@ import {
 const initialState = fromJS({
     semesterList: [],
     coursesListMap: {},
+    evaluationList: [],
+    semesterListMeta: meta,
+    coursesListMapMeta: meta,
+    evaluationListMeta: meta,
     filter: {
         searchKey: "",
         filterKeys: [],
@@ -28,10 +41,6 @@ const initialState = fromJS({
             weekday,
             sessionClass: '',
         })),
-    },
-    isLoading: {
-        semesterList: false,
-        coursesList: false,
     },
 });
 
@@ -41,37 +50,51 @@ const initialState = fromJS({
 // }
 
 function nccuCourseReducer(state = initialState, action) {
+    const {
+        error,
+    } = action;
     switch (action.type) {
+        case FETCH_SEMESTER_LIST: {
+            return state.update('semesterListMeta', updateMetaLoading);
+        }
         case SET_SEMESTER_LIST: {
+            if (error) {
+                return state.update('semesterListMeta', updateMetaError);
+            }
             return state
                 .set('semesterList', fromJS(action.payload.semesterList))
                 // .set('semesterList', fromJS([
                 //     {semester: '10701'},
                 //     {semester: '10702'},
                 // ]))
-                .setIn(['isLoading', 'semesterList'], false);
+                .update('semesterListMeta', updateMetaDone);
+        }
+        case FETCH_COURSES_LIST: {
+            return state.update('coursesListMapMeta', updateMetaLoading);
         }
         case SET_COURSES_LIST_MAP: {
             const {
                 semester,
                 coursesList,
             } = action.payload;
+            if (error) {
+                return state.update('coursesListMapMeta', updateMetaError);
+            }
             return state
                 .updateIn(['coursesListMap'], (coursesListMap) =>
                     coursesListMap.set(semester, fromJS(coursesList)))
-                .setIn(['isLoading', 'coursesList'], false);
+                .update('coursesListMapMeta', updateMetaDone);
         }
-        case SET_SEMESTER_LIST_LOADING: {
-            const {
-                isLoading,
-            } = action.payload;
-            return state.setIn(['isLoading', 'semesterList'], isLoading);
+        case FETCH_EVALUATION_LIST: {
+            return state.update('evaluationListMeta', updateMetaLoading);
         }
-        case SET_COURSES_LIST_LOADING: {
-            const {
-                isLoading,
-            } = action.payload;
-            return state.setIn(['isLoading', 'coursesList'], isLoading);
+        case SET_EVALUATION_LIST: {
+            if (error) {
+                return state.update('evaluationListMeta', updateMetaError);
+            }
+            return state
+                .set('evaluationList', fromJS(action.payload.evaluationList))
+                .update('evaluationListMeta', updateMetaDone);
         }
         case SET_SEARCH_KEY: {
             const {
@@ -112,8 +135,8 @@ function nccuCourseReducer(state = initialState, action) {
             } = action.payload;
             if (dataFilterType === 'selectedSession') {
                 const updatedState = state.updateIn(['filter', 'selectedSession'], (sessions) => sessions.map((session) => session.get('weekday') === key
-                ? session.set('sessionClass', '')
-                : session));
+                    ? session.set('sessionClass', '')
+                    : session));
                 return updatedState;
             }
             return state

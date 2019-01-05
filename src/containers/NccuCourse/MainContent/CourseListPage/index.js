@@ -19,6 +19,7 @@ import {
     ROW_RANGE,
 } from 'containers/NccuCourse/constants';
 import { findAttributeInEvent } from 'utils/event';
+import gtag from 'utils/tracking';
 import message from 'antd/lib/message';
 import Spinner from 'components/Spinner';
 import PageSelector from 'components/PageSelector';
@@ -117,10 +118,16 @@ class CourseListPage extends React.Component {
             document.execCommand("copy");
 
             const courseId = event.target.innerText;
-            message.success(`複製科目代號：${courseId}`)
+            message.success(`複製科目代號：${courseId}`);
+            gtag('event', '複製科目代號：', {
+                'event_label': courseId,
+            });
             return;
         }
-
+        const courseName = findAttributeInEvent(event, 'data-course-name');
+        gtag('event', '查看課程內容 row click', {
+            'event_label': courseName,
+        });
         const courseId = findAttributeInEvent(event, 'data-course-id');
         const courseDetailPagePath = `${pathname}/${courseId}`;
         history.push(courseDetailPagePath);

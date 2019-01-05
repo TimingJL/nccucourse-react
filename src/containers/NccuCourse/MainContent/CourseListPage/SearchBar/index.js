@@ -17,6 +17,7 @@ import {
 } from 'containers/NccuCourse/actions'
 import _ from 'lodash';
 import { findAttributeInEvent } from 'utils/event';
+import gtag from 'utils/tracking';
 import TimeTableFitler from 'containers/NccuCourse/MainContent/CourseListPage/SearchBar/TimeTableFilter';
 import GeneralClassFilter from 'containers/NccuCourse/MainContent/CourseListPage/SearchBar/GeneralClassFilter'
 
@@ -142,6 +143,9 @@ class SearchBar extends React.PureComponent {
         } = this.props;
         const searchKey = document.getElementById('search-bar__input').value;
         handleSetSearchKey(searchKey);
+        gtag('event', '搜尋', {
+            'event_label': searchKey,
+        });
     }
     handleOnGeneralClassFilter = (event) => {
         const {
@@ -149,6 +153,9 @@ class SearchBar extends React.PureComponent {
         } = this.props;
         const filterKey = findAttributeInEvent(event, 'data-filter-key');
         handleSetFilterKey(filterKey);
+        gtag('event', '通識篩選按鈕', {
+            'event_label': filterKey,
+        });
     }
     handleOnClearSearchKey = () => {
         const {
@@ -156,6 +163,7 @@ class SearchBar extends React.PureComponent {
         } = this.props;
         document.getElementById('search-bar__input').value = null;
         handleSetSearchKey("");
+        gtag('event', '清除search bar按鈕');
     }
     handleOnGetFilterKeys = () => {
         const {
@@ -166,6 +174,9 @@ class SearchBar extends React.PureComponent {
         if (isKeyEmpty(keys)) return;
         handleOnAddFilterKeys(keys);
         document.getElementById('search-bar__input').value = null;
+        gtag('event', '新增篩選標籤', {
+            'event_label': keys,
+        });
     }
     handleOnRemoveFilterKey = (event) => {
         const {
@@ -174,10 +185,17 @@ class SearchBar extends React.PureComponent {
         const dataFilterType = findAttributeInEvent(event, 'data-filter-type');
         const key = findAttributeInEvent(event, 'data-filter-key');
         handleOnRemoveFilterKeys(dataFilterType, key);
+        gtag('event', '移除篩選標籤', {
+            'event_category' : dataFilterType,
+            'event_label': key,
+        });
     }
     handleOnShowModal = () => {
         this.setState({
             isModalVisible: true,
+        });
+        gtag('event', '上課時間篩選', {
+            'event_label': '開啟modal',
         });
     }
     handleOnHideModal = () => {
@@ -192,6 +210,9 @@ class SearchBar extends React.PureComponent {
         const weekday = findAttributeInEvent(event, 'data-weekday');
         const sessionClass = findAttributeInEvent(event, 'data-sessionclass');
         handleSetSessionClass(weekday, sessionClass);
+        gtag('event', '上課時間篩選', {
+            'event_label': `${weekday} | ${sessionClass}`,
+        });
     }
 
     render() {

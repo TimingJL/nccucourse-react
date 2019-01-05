@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import gtag from 'utils/tracking';
 
 const StyledPageSelector = styled.div`
     display: flex;
@@ -44,14 +45,26 @@ const PageSelector = ({ pageRange, currentPage, handleOnPageChange }) => {
     const handleOnNextPage = () => {
         const updatedPage = (currentPage + 1) > pageRange ? 1 : (currentPage + 1);
         handleOnPageChange(updatedPage);
+        gtag('event', 'page change', {
+            'event_category': 'next page',
+            'event_label': updatedPage,
+        });
     }
     const handleOnPrevPage = () => {
         const updatedPage = (currentPage - 1) < 1 ? pageRange : (currentPage - 1);
         handleOnPageChange(updatedPage);
+        gtag('event', 'page change', {
+            'event_category': 'prev page',
+            'event_label': updatedPage,
+        });
     }
     const handleOnSelect = (event) => {
         const page = parseInt(event.target.value, 10);
         handleOnPageChange(page);
+        gtag('event', 'page change', {
+            'event_category': '選擇頁數',
+            'event_label': page,
+        });
     }
     const pages = Array.from([...Array(pageRange).keys()], item => item + 1);
     return (

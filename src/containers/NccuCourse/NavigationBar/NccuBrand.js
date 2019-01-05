@@ -1,8 +1,10 @@
 import React from 'react';
+import gtag from 'utils/tracking';
 import { StyledNccuBrand } from './Styled';
 
 const NccuBrand = () => {
     const handleOnClick = () => {
+        gtag('event', 'NccuBrand 回首頁');
         window.location = '/';
     }
     return (

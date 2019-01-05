@@ -5,6 +5,7 @@ import { Map } from 'immutable';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { findAttributeInEvent } from 'utils/event';
+import gtag from 'utils/tracking';
 
 import Spinner from 'components/Spinner';
 import NoData from 'components/NoData';
@@ -78,13 +79,20 @@ class CourseDetailPage extends React.Component {
     handleOnCourseNameClick = (event) => {
         const agenda = findAttributeInEvent(event, 'data-agenda');
         window.open(agenda);
+        gtag('event', '教學大綱', {
+            'event_label': event.target.innerText,
+        });
     }
     handleOnBackBtnClick = () => {
+        gtag('event', '回上一頁');
         history.goBack();
     }
     handleOnInstructorClick = (event) => {
         const instructor = findAttributeInEvent(event, 'data-instructor');
         const evaluationPagePath = `/evaluation/${instructor}`;
+        gtag('event', '點擊教師名稱', {
+            'event_label': instructor,
+        });
         history.push(evaluationPagePath);
     }
     render() {

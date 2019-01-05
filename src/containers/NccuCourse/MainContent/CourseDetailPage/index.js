@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { findAttributeInEvent } from 'utils/event';
 
 import Spinner from 'components/Spinner';
+import NoData from 'components/NoData';
 
 import {
     selectCoursesListMap,
@@ -164,7 +165,7 @@ class CourseDetailPage extends React.Component {
                             </div>
                             <button className="course-detail__button" onClick={this.handleOnBackBtnClick}>回上一頁</button>
                         </div>
-                        : <div className="course-detail__no-data">No data</div>
+                        : <NoData />
                 }
             </StyledCourseDetailPage>
         );

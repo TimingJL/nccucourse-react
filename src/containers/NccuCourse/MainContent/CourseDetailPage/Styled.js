@@ -1,4 +1,6 @@
 import styled, { keyframes } from 'styled-components';
+const GREEN = '#00b0ba';
+const ORANGE = '#ffa300';
 
 const rippleBackground = keyframes`
     from {
@@ -14,7 +16,7 @@ export const StyledCourseDetailPage = styled.div`
         margin: 10px 0px;
     }
     .course-detail__course-id {
-        background: #00b0ba;
+        background: ${GREEN};
         font-size: 1.2em;
         padding: 5px 0px;
         text-align: center;
@@ -32,7 +34,7 @@ export const StyledCourseDetailPage = styled.div`
         width: 100%;
         padding: 20px 10px;
         text-align: center;
-        margin-bottom: 5px;
+        border-bottom: 2px solid ${GREEN};
     }
     .course-detail__course-name-eng {
         font-size: 14px;
@@ -40,13 +42,13 @@ export const StyledCourseDetailPage = styled.div`
     }
     .course-detail__block-wrapper {
         background: #ffffff26;
-        margin: 3px 0px;
+        margin-top: 5px;
         padding: 20px 10px;
         text-align: center;
     }
     .course-detail__block-value {
         font-size: 2.5em;
-        color: #36CBD4;
+        color: ${GREEN};
         font-weight: 900;
     }
     .course-detail__block-label {
@@ -89,7 +91,7 @@ export const StyledCourseDetailPage = styled.div`
     .course-detail__course-field-pair {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-gap: 2px 5px;
+        grid-gap: 5px;
     }
     .course-detail__button {
         width: 100%;
@@ -108,7 +110,7 @@ export const StyledCourseDetailPage = styled.div`
     }
     .course-detail__instr-group {
         display: grid;
-        grid-gap: 2px 5px;
+        grid-gap: 5px;
         ${(props) => {
             const repeatNum = props.instrNum >= 3 ? 3 : props.instrNum;
             return `grid-template-columns: repeat(${repeatNum}, 1fr);`;
@@ -147,7 +149,7 @@ export const StyledCourseDetailPage = styled.div`
         padding: 20px 10px;
         border: none;
         outline: none;
-        background: #ffa300;
+        background: ${ORANGE};
         font-size: 1.5em;
         transition: all 0.5s;
         cursor: pointer;
@@ -155,14 +157,5 @@ export const StyledCourseDetailPage = styled.div`
             background: #ffbf4e;
             transition: all 0.5s;
         }
-    }
-
-    .course-detail__no-data {
-        width: 100%;
-        height: 300px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 2em;
     }
 `;

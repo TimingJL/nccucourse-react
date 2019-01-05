@@ -91,7 +91,7 @@ class CourseListPage extends React.Component {
         }
         if (semesterList.size && !findSemester) {
             // if the url not exist, then go to homepage.
-            history.push('/');
+            window.location = '/';
         }
     }
     componentWillUnmount() {

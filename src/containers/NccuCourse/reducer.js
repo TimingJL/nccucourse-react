@@ -11,8 +11,6 @@ import {
     SET_SEMESTER_LIST,
     SET_COURSES_LIST_MAP,
     SET_EVALUATION_LIST,
-    SET_SEMESTER_LIST_LOADING,
-    SET_COURSES_LIST_LOADING,
     SET_SEARCH_KEY,
     SET_FILTER_KEY,
     SET_SELECTED_SESSION_CLASS,
@@ -66,6 +64,8 @@ function nccuCourseReducer(state = initialState, action) {
                 // .set('semesterList', fromJS([
                 //     {semester: '10701'},
                 //     {semester: '10702'},
+                //     {semester: '10801'},
+                //     {semester: '10802'},
                 // ]))
                 .update('semesterListMeta', updateMetaDone);
         }

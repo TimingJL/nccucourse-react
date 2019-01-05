@@ -12,6 +12,11 @@ import {
     fetchEvaluationList,
 } from 'containers/NccuCourse/actions';
 import Spinner from 'components/Spinner';
+import NoData from 'components/NoData';
+import Course from './Course';
+import {
+    StyledEvaluationPage,
+} from './Styled';
 
 class EvaluationPage extends React.Component {
     static propTypes = {
@@ -40,16 +45,32 @@ class EvaluationPage extends React.Component {
     }
     render() {
         const {
-            // match,
-            // pathname,
-            // evaluationList,
+            match: {
+                params: {
+                    instructor,
+                },
+            },
+            evaluationList,
             isLoading,
         } = this.props;
-        if (isLoading) {
+        if (!evaluationList.size || isLoading) {
             return <Spinner />;
         }
+        const foundEvaluation = evaluationList.find((evaluation) => evaluation.get('instructor') === instructor);
+        if (!foundEvaluation) {
+            return <NoData />;
+        }
+
         return (
-            <div>evaluationPage</div>
+            <StyledEvaluationPage>
+                <div className="evaluation__department">{foundEvaluation.get('department')}</div>
+                <div className="evaluation__instructor">{foundEvaluation.get('instructor')}</div>
+                {
+                    foundEvaluation.get('course').map((course) => (
+                        <Course key={course} course={course} />
+                    ))
+                }
+            </StyledEvaluationPage>
         );
     }
 }

@@ -26,6 +26,7 @@ export const StyledNavigationBar = styled.div`
 `;
 
 export const StyledNccuBrand = styled.div`
+    cursor: pointer;
     .nccu-brand__nccu {
         color: white;
         font-size: 32px;

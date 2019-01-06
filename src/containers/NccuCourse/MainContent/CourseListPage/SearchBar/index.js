@@ -93,6 +93,7 @@ class SearchBar extends React.PureComponent {
         const {
             searchBarValue,
         } = this.state;
+        // eslint-disable-next-line
         const keys = searchBarValue.split(/[.,\/ -+]/);
         if (isKeyEmpty(keys)) return;
         handleOnAddFilterKeys(keys);

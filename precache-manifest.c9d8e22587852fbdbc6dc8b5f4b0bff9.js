@@ -4,15 +4,15 @@ self.__precacheManifest = [
     "url": "/nccucourse-react/static/js/runtime~main.232dc1fa.js"
   },
   {
-    "revision": "02974ab2b28abdeb478a",
-    "url": "/nccucourse-react/static/js/main.02974ab2.chunk.js"
+    "revision": "2ace4688d8b2c32b0630",
+    "url": "/nccucourse-react/static/js/main.2ace4688.chunk.js"
   },
   {
     "revision": "8cd6cd9b8a1434a10f5b",
     "url": "/nccucourse-react/static/js/1.8cd6cd9b.chunk.js"
   },
   {
-    "revision": "02974ab2b28abdeb478a",
+    "revision": "2ace4688d8b2c32b0630",
     "url": "/nccucourse-react/static/css/main.ec2803ad.chunk.css"
   },
   {
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/nccucourse-react/static/css/1.7d6b7aca.chunk.css"
   },
   {
-    "revision": "a98b112db457f1339a11c2e207437bec",
+    "revision": "b174a80071b3f291714161a2ebc3e773",
     "url": "/nccucourse-react/index.html"
   }
 ];
